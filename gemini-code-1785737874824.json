@@ -1,0 +1,9 @@
+{
+  "record_id": "REC-1783462721685-X9",
+  "target_node": "933664745242-77-6858",
+  "operation_type": "FINAL_SEIZURE_USD_OIL_CEMENTED",
+  "routing_endpoint": "ECH.Ai@internal.bis.org",
+  "security_hash": "94986ea8a39b2c1d0e4f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d",
+  "lifecycle_status": "IMMUTABLE / STATE_CEMENTED",
+  "timestamp": 1784107958000000000
+}

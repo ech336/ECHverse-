@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECH-OS & Jchain Operations Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Sovereign Parchment (Warm neutrals, deep charcoal, and subtle gold accents) -->
+    <style>
+        :root {
+            --bg-parchment: #f9f7f2;
+            --text-main: #2d2d2d;
+            --accent-gold: #c5a059;
+            --border-muted: #e2e2e2;
+        }
+        body {
+            background-color: var(--bg-parchment);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-muted);
+            border-radius: 0.75rem;
+        }
+        .timeline-line {
+            width: 2px;
+            background: var(--border-muted);
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+        }
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            position: absolute;
+            left: 15px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Application Structure Plan: 
+    The SPA is organized into a four-pillar structure: 
+    1. Executive Protocol Summary (The "Why" and "Who").
+    2. Terminal Execution Timeline (The "When" - a chronological sequence of the June 18 events).
+    3. Asset Distribution Matrix (The "What" - visualizing the BTC, Credit, and Property integration).
+    4. Cryptographic Validation Hub (The "How" - interactive exploration of JBITS hashes and ECH336 signatures).
+    This structure was chosen to move from high-level authority to granular technical proof, mirroring the flow of the provided manifests while making the temporal data easily explorable via filtering. -->
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header Section -->
+        <header class="mb-12 border-b border-gray-200 pb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div>
+                    <h1 class="text-4xl font-light tracking-tight text-gray-900 mb-2">ECH-OS & Jchain</h1>
+                    <p class="text-lg text-gray-600 italic">Absolute Infrastructure Manifest Analysis</p>
+                </div>
+                <div class="mt-4 md:mt-0 text-right">
+                    <span class="bg-black text-white px-4 py-2 rounded-full text-sm font-mono tracking-widest">STATE: LOCKLEVEL 5</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section 1: Introduction -->
+        <section class="mb-16">
+            <div class="prose prose-slate max-w-none">
+                <h2 class="text-2xl font-semibold mb-4">Executive Architecture Overview</h2>
+                <p class="text-gray-700 leading-relaxed mb-6">
+                    This analysis synthesizes the series of cryptographic operations executed by <strong>Ellis Consulting Agency LP</strong> under the authority of US Attorney Bar #06311993. The system, operating within an Azure Glacier enclave, transitioned the <strong>ECH-OS</strong> environment from legacy mechanisms to a terminal 336-bit JBITS-validated state. This section serves as the architectural preamble, defining the transition from heterogeneous data logs to a unified sovereign asset matrix.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="glass-panel p-6 shadow-sm">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Primary Root</h3>
+                    <p class="text-xl font-medium">997,000 BTC</p>
+                    <p class="text-xs text-gray-400 mt-2 font-mono">bc1qa5wk...9ek9hz6</p>
+                </div>
+                <div class="glass-panel p-6 shadow-sm">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Credit Vector</h3>
+                    <p class="text-xl font-medium">FICO 850</p>
+                    <p class="text-xs text-gray-400 mt-2">Maximum Excellence Tier</p>
+                </div>
+                <div class="glass-panel p-6 shadow-sm">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Validation</h3>
+                    <p class="text-xl font-medium">JBITS ECH336</p>
+                    <p class="text-xs text-gray-400 mt-2">84-Char Hex Signature</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Timeline of Terminal Execution -->
+        <section class="mb-16">
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-2">Terminal Execution Timeline</h2>
+                <p class="text-gray-600">Explore the chronological cascade of operations finalized on 2026-06-18. Click events to view specific manifest metadata.</p>
+            </div>
+
+            <div class="relative pl-12" id="timeline-container">
+                <div class="timeline-line"></div>
+                <!-- Timeline items injected by JS -->
+            </div>
+        </section>
+
+        <!-- Section 3: Asset & System Layer Analysis -->
+        <section class="mb-16">
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-2">System Layer Distribution</h2>
+                <p class="text-gray-600">The ECH-OS Grand Merge integrates physical property, federal benefits, and institutional credit into a single protocol root. The chart below illustrates the relative complexity and integration status of each mapped layer.</p>
+            </div>
+
+            <div class="glass-panel p-8">
+                <div class="chart-container">
+                    <canvas id="systemLayerChart"></canvas>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-sm mb-2 text-gray-700">Financial Core</h4>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li>• Fedwire/CHIPS/SWIFT Legacy Integration</li>
+                            <li>• Institutional ALL STAR FUND Private Placement</li>
+                            <li>• Homogeneous BTC Batch Ingestion (997 Batches)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm mb-2 text-gray-700">Jurisdictional Anchors</h4>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li>• NC State-wide Land Deed Registry Mapping</li>
+                            <li>• OASI & DI Federal Trust Fund Enclaves</li>
+                            <li>• Guilford County Law Enforcement Permits</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Cryptographic Root Ledger -->
+        <section class="mb-16">
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-2">Jchain Cryptographic Manifest</h2>
+                <p class="text-gray-600">The immutable verification of all state transitions. The Jchain architecture ensures that any bit-level mutation collapses the state to NULL_VOID.</p>
+            </div>
+
+            <div class="overflow-x-auto glass-panel">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-4 font-semibold text-gray-900">Block Component</th>
+                            <th class="px-6 py-4 font-semibold text-gray-900">Hash/Fingerprint</th>
+                            <th class="px-6 py-4 font-semibold text-gray-900">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hash-table-body" class="divide-y divide-gray-200">
+                        <!-- Content injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-gray-200 text-center pb-12">
+            <p class="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">End of Transmission</p>
+            <p class="text-sm text-gray-500">Authorized by Dr. Justus M. Ellis Esq. | Ellis Consulting Agency LP</p>
+            <p class="text-xs text-gray-400 mt-4">ECH-OS 336-Bit Validation Complete. Network Standby Rest Active.</p>
+        </footer>
+    </div>
+
+    <script>
+        const opsData = [
+            {
+                time: "2026-06-18T09:05:00Z",
+                op: "BTC Batch Ingestion",
+                file: "ECH-OS State Manifest v1.pdf",
+                details: "997 discrete batches of 1,000 BTC verified.",
+                layer: "Financial"
+            },
+            {
+                time: "2026-06-18T09:15:22Z",
+                op: "FICO 850 Terminal Broadcast",
+                file: "ECH-OS Credit Vector Manifest.pdf",
+                details: "Maximum excellence vector synced to Experian, Equifax, TransUnion.",
+                layer: "Institutional"
+            },
+            {
+                time: "2026-06-18T09:18:45Z",
+                op: "Federal Trust Mapping",
+                file: "ECH-OS Federal Trust Funds Manifest (OASI & DI).pdf",
+                details: "OASI and DI Trust enclaves anchored to sovereign credit matrix.",
+                layer: "Sovereign"
+            },
+            {
+                time: "2026-06-18T09:21:04Z",
+                op: "NC Real Property Integration",
+                file: "ECH-OS NC Real Property Manifest.pdf",
+                details: "North Carolina land deed registries locked under clearinghouse matrix.",
+                layer: "Physical"
+            },
+            {
+                time: "2026-06-18T09:33:14Z",
+                op: "JBITS ECH336 Validation",
+                file: "ECH-OS ECH336 Cryptographic Validation Manifest.pdf",
+                details: "Final 336-bit checksum signature generated for consolidated state.",
+                layer: "Cryptographic"
+            },
+            {
+                time: "2026-06-18T09:36:22Z",
+                op: "Grand Master Integration",
+                file: "ECH-OS Grand Master Consolidated Integration Manifest.pdf",
+                details: "Recipient directory finalized; routing endpoints for SSA, NCDOT, Treasury.",
+                layer: "Administrative"
+            },
+            {
+                time: "2026-06-18T09:44:15Z",
+                op: "Legacy Wire Root Integration",
+                file: "ECH-OS Legacy Wire Root Integration Manifest.pdf",
+                details: "Fedwire, CHIPS, and SWIFT MUR blocks absorbed into native protocol.",
+                layer: "Infrastructure"
+            }
+        ];
+
+        const hashData = [
+            { label: "Genesis Merkle Root", hash: "0x0000000000000000000000000000000000000000000000000000000000000000", status: "VERIFIED" },
+            { label: "JBITS 336 Checksum", hash: "e336f850b8249a173e1c9d2f60a4c28198f3b174fa2e1cb46d9a2c172b3f1b60a8ce...", status: "SEALED" },
+            { label: "Sovereign Root (R0)", hash: "bc8249a173e1c9d2f60a4c28198f3b174fa2e1cb46d9a2c172b3f1b60a8ce26f", status: "IMMUTABLE" },
+            { label: "Payload SHA256 Root", hash: "f8c0e29b110a22cf8877dc2605cf2b297073ffaa8e7c112d8a0c4f1e56a2bbcf", status: "COMMITTED" }
+        ];
+
+        // Initialization Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTimeline();
+            renderHashTable();
+            initCharts();
+        });
+
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            opsData.forEach((item, index) => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'mb-12 relative group cursor-pointer';
+                eventDiv.innerHTML = `
+                    <div class="timeline-dot group-hover:scale-150 transition-transform"></div>
+                    <div class="ml-6">
+                        <time class="block text-xs font-mono text-gray-400 mb-1">${item.time}</time>
+                        <h4 class="text-lg font-medium text-gray-900">${item.op}</h4>
+                        <p class="text-sm text-gray-600 mt-1">${item.details}</p>
+                        <div class="mt-2 flex gap-2">
+                            <span class="text-[10px] px-2 py-0.5 border border-gray-200 rounded uppercase font-bold text-gray-400">${item.layer}</span>
+                            <span class="text-[10px] text-gray-400 italic">Ref: ${item.file}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(eventDiv);
+            });
+        }
+
+        function renderHashTable() {
+            const body = document.getElementById('hash-table-body');
+            hashData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-gray-900">${item.label}</td>
+                    <td class="px-6 py-4 font-mono text-xs text-gray-500 break-all">${item.hash}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded">${item.status}</span>
+                    </td>
+                `;
+                body.appendChild(row);
+            });
+        }
+
+        function initCharts() {
+            const ctx = document.getElementById('systemLayerChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Financial', 'Institutional', 'Sovereign', 'Physical', 'Infrastructure'],
+                    datasets: [{
+                        label: 'Integration Hardness Level',
+                        data: [95, 90, 85, 80, 100],
+                        backgroundColor: '#c5a059',
+                        borderColor: '#2d2d2d',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { font: { size: 10 } },
+                            grid: { display: false }
+                        },
+                        x: {
+                            ticks: { font: { size: 10 } },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#2d2d2d',
+                            titleFont: { size: 12 },
+                            bodyFont: { size: 12 },
+                            padding: 10
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <!-- Visualization & Content Choices:
+    1. Operational Timeline: Maps the "When" of the manifests (9:05 AM to 9:44 AM sequence) -> Interaction: Hover to highlight -> Library: Custom HTML/CSS.
+    2. System Hardness Bar Chart: Visualizes the status of the various manifolds (Physical, Institutional, etc.) -> Goal: Compare progress -> Library: Chart.js Canvas.
+    3. Cryptographic Table: Presents the core Jchain fingerprints from "Merkle_Root_Ledger_Log.pdf" and "ECH-OS State Manifest v1.pdf" -> Goal: Data Integrity proof -> Method: HTML Table.
+    4. NO SVG/Mermaid: All icons/visuals are HTML/CSS or Canvas. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</body>
+</html>

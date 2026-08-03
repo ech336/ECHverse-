@@ -1,0 +1,9 @@
+{
+  "event": "PROVISION_FONS_METRO_RING",
+  "location": "GREENSBORO_NC_METRO",
+  "topology": "DWDM_ROADM_RING",
+  "status": "ACTIVE_DEPLOYMENT",
+  "daemon": "TERRAFORMER_v1.0",
+  "telemetry": "ECH:*/Tel/FONS-Sync",
+  "timestamp": 1784106254000000000
+}
