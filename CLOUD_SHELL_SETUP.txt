@@ -1,0 +1,87 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  ECH OS v1 CLOUD SHELL - VPS SETUP                         ║
+║                     IP: 34.74.223.156                                      ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📋 QUICK SETUP INSTRUCTIONS
+═══════════════════════════════════════════════════════════════════════════
+
+1️⃣  AUTOMATED DEPLOYMENT (Recommended)
+   ────────────────────────────────────
+   cd /home/ubuntu/ech-os-v1
+   ./deploy-to-vps.sh
+
+   This will automatically:
+   ✓ Copy SSH keys to VPS
+   ✓ Deploy all services
+   ✓ Install PM2 and start services
+   ✓ Configure firewall
+   ✓ Display connection info
+
+2️⃣  MANUAL DEPLOYMENT
+   ───────────────────
+   Step 1: Copy SSH keys
+   scp -r ech-os-v1/ssh ubuntu@34.74.223.156:/opt/ech-os/
+   
+   Step 2: Copy source code
+   scp -r ech-os-v1 ubuntu@34.74.223.156:/opt/
+   
+   Step 3: Install dependencies
+   ssh ubuntu@34.74.223.156 "cd /opt/ech-os-v1 && npm install"
+   
+   Step 4: Start services
+   ssh ubuntu@34.74.223.156 "cd /opt/ech-os-v1 && pm2 start ssh/gateway.js"
+
+3️⃣  CONNECT TO CLOUD SHELL
+   ────────────────────────
+   SSH Connection:
+   ssh -i ech-os-v1/ssh/ech_cloud_key -p 2222 ubuntu@34.74.223.156
+
+   WebSocket Connection:
+   ws://34.74.223.156:9091
+
+   API Endpoint:
+   http://34.74.223.156:9090/cloud/shell/status
+
+🔐 SSH KEY INFORMATION
+═══════════════════════════════════════════════════════════════════════════
+Public Key:  ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBnIpBXKHNXDNuTNzvnhDZBtQh4ZpLNVEnBlc4EevzJ+ ech-os-cloud-shell
+Private Key: ech-os-v1/ssh/ech_cloud_key
+Fingerprint: SHA256:nCp5nIU6/HTj/jg0h7sDtCk3hCcGiiHVI0WSWXaQyeE
+
+🌐 SERVICE ENDPOINTS
+═══════════════════════════════════════════════════════════════════════════
+SSH Gateway:         ssh://34.74.223.156:2222
+Local Gateway:       http://34.74.223.156:8080
+Cloud Switchboard:   http://34.74.223.156:9090
+Cloud Shell WS:      ws://34.74.223.156:9091
+
+📊 MONITORING
+═══════════════════════════════════════════════════════════════════════════
+Check service status:
+ssh ubuntu@34.74.223.156 "pm2 status"
+
+View logs:
+ssh ubuntu@34.74.223.156 "pm2 logs ech-ssh-gateway"
+
+Restart services:
+ssh ubuntu@34.74.223.156 "pm2 restart all"
+
+🚀 DASHBOARD CONFIGURATION
+═══════════════════════════════════════════════════════════════════════════
+Update your dashboard environment:
+
+VITE_API_URL=http://34.74.223.156:9090
+VITE_LOCAL_GATEWAY=http://34.74.223.156:8080
+VITE_CLOUD_SHELL=ws://34.74.223.156:9091
+VITE_SSH_GATEWAY=34.74.223.156:2222
+
+File: ech-os-dashboard/.env.production (already configured)
+
+📚 DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════
+Full guide: ech-os-v1/VPS_CONNECTION_GUIDE.md
+Deployment script: ech-os-v1/deploy-to-vps.sh
+SSH guide: ech-os-v1/ssh/DEPLOYMENT.md
+
+═══════════════════════════════════════════════════════════════════════════
