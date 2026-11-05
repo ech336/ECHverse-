@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>https: | MSR Loader</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* The Base Website (https://www.google.com) */
+        #base-site {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* The MSR Overlay UI */
+        #msr-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 350px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 9999;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .active { background-color: #4CAF50; }
+
+        input#msr-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #f9f9f9;
+        }
+
+        #data-display {
+            margin-top: 15px;
+            font-size: 0.85em;
+            background: #222;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+            word-break: break-all;
+            font-family: monospace;
+        }
+
+        h3 { margin: 0 0 10px 0; font-size: 1.1em; color: #333; }
+    </style>
+</head>
+<body>
+
+    <iframe id="base-site" src="https://justus-ellis-bal--armory-news0l.replit.app"></iframe>
+
+    <div id="msr-overlay">
+        <h3><span class="status-dot active"></span> MSR Data Loader</h3>
+        <p style="font-size: 0.8em; color: #666;">Ready for swipe. Ensure field is focused.</p>
+        
+        <input type="password" id="msr-input" placeholder="Click here then swipe card..." autofocus>
+
+        <div id="data-display">
+            > Awaiting hardware input...
+        </div>
+        
+        <button onclick="clearData()" style="margin-top:10px; cursor:pointer;">Clear Log</button>
+    </div>
+
+    <script>
+        const msrInput = document.getElementById('msr-input');
+        const display = document.getElementById('data-display');
+
+        // Handle the data capture
+        msrInput.addEventListener('keypress', function (e) {
+            // MSRs usually end their string with an "Enter" (Keycode 13)
+            if (e.key === 'Enter') {
+                const rawData = msrInput.value;
+                processMSR(rawData);
+                msrInput.value = ''; // Clear for next swipe
+            }
+        });
+
+        function processMSR(data) {
+            const timestamp = new Date().toLocaleTimeString();
+            let formattedData = `[${timestamp}] <br> RAW: ${data}`;
+            
+            // Basic parsing logic (if standard Track 1/2 format)
+            if (data.includes('^')) {
+                const parts = data.split('^');
+                const name = parts[1] ? parts[1].trim() : "Unknown";
+                formattedData += `<br><span style="color:#0af;">NAME: ${name}</span>`;
+            }
+
+            const entry = document.createElement('div');
+            entry.style.marginBottom = "10px";
+            entry.style.borderBottom = "1px solid #444";
+            entry.innerHTML = formattedData;
+            
+            display.prepend(entry);
+        }
+
+        function clearData() {
+            display.innerHTML = "> Awaiting hardware input...";
+        }
+
+        // Keep input focused even if user clicks elsewhere on the overlay
+        document.getElementById('msr-overlay').onclick = () => msrInput.focus();
+    </script>
+</body>
+</html>
+
